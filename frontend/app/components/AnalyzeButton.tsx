@@ -22,14 +22,14 @@ const AnalyzeButton = ( {repoUrl}: AnalyzeButtonProps) => {
         setLoading(true);
 
         try {
+            //random regex
             const parts = cleanUrl.replace(/\.git$/, "").split('/');
             const repo = parts.pop()
             const owner = parts.pop()
 
-            const response = await fetch(`https://github.com/${owner}/${repo}`)
-            if (response.status === 404) {
+            const response = await fetch(`/api/check-repo?owner=${owner}&repo=${repo}`)
+            if (!response.ok) {
                 setError("Repo Not Found")
-                console.log("Success")
                 setLoading(false)
                 return
             }

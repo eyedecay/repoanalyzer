@@ -1,6 +1,7 @@
 import Stars from "./components/analytics/Stars"
 import { getRepoMetrics } from "../lib/githubFetch";
 import Language from "./components/analytics/Language"
+import FullChatComponent from "./components/chat/FullChatComponent";
 
 interface PageProps {
     searchParams: Promise <{owner?:string; repo?:string}>;
@@ -21,6 +22,7 @@ const Analytics = async ( {searchParams}: PageProps) => {
         <>
             <Stars stars = {repoData.stars}/>
             <Language language = {repoData.language}/>
+            <FullChatComponent/>
         </>
     )
 }

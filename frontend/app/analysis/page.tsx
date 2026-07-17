@@ -1,4 +1,5 @@
 import Stars from "./components/analytics/Stars"
+import { getRepoMetrics } from "../lib/githubFetch";
 
 interface PageProps {
     searchParams: Promise <{owner?:string; repo?:string}>;
@@ -9,9 +10,11 @@ const Analytics = async ( {searchParams}: PageProps) => {
 
     const {owner, repo} = await searchParams
 
+    if (owner === undefined || repo === undefined) {
+        return <div> Missing Repo Info</div>
+    }
 
-    const response = await fetch(`http://localhost:3001/api/check-repo?owner=${owner}&repo=${repo}&metrics=true`)
-    const repoData = await response.json()
+    const repoData = await getRepoMetrics(owner, repo)
 
     return (
         <>
@@ -19,6 +22,5 @@ const Analytics = async ( {searchParams}: PageProps) => {
         </>
     )
 }
-
 
 export default Analytics

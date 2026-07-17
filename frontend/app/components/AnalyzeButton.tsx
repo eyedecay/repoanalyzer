@@ -27,7 +27,7 @@ const AnalyzeButton = ( {repoUrl}: AnalyzeButtonProps) => {
             const repo = parts.pop()
             const owner = parts.pop()
 
-            const response = await fetch(`/api/check-repo?owner=${owner}&repo=${repo}&metrics=false`)
+            const response = await fetch(`/api/check-repo?owner=${owner}&repo=${repo}`)
             if (!response.ok) {
                 setError("Repo Not Found")
                 setLoading(false)

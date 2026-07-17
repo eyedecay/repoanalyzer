@@ -1,4 +1,8 @@
-const Stars = () => {
+interface StarsProp {
+    value: number
+}
+
+const Stars = ({value}: StarsProp) => {
     return (
         <div className="card bg-base-100 w-96 shadow-sm">
         <figure>
@@ -7,7 +11,7 @@ const Stars = () => {
             alt="Shoes" />
         </figure>
         <div className="card-body">
-            <h2 className="card-title justify-center" >Stars</h2>
+            <h2 className="card-title justify-center" >Stars: {value} </h2>
 
         </div>
         </div>

@@ -33,7 +33,7 @@ const AnalyzeButton = ( {repoUrl}: AnalyzeButtonProps) => {
                 setLoading(false)
                 return
             }
-            router.push(`/analysis?repo=${encodeURIComponent(cleanUrl)}`);
+            router.push(`/analysis?owner=${encodeURIComponent(owner!)}&repo=${encodeURIComponent(repo!)}`);
         } catch (err) {
             setError("Network Error")
             setLoading(false)

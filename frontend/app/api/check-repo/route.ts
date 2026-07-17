@@ -29,7 +29,7 @@ export async function GET(request: Request) {
             return NextResponse.json(
                 {
                     stars: RepoData.stargazers_count,
-                    name: RepoData.name,
+                    description: RepoData.description,
                     language: RepoData.language
                 },
                 {status: 200}

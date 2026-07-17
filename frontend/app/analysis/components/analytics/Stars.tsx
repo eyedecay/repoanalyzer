@@ -1,17 +1,27 @@
 interface StarsProp {
-    value: number
+    stars: number
 }
 
-const Stars = ({value}: StarsProp) => {
+const Stars = ({stars}: StarsProp) => {
     return (
         <div className="card bg-base-100 w-96 shadow-sm">
-        <figure>
-            <img
-            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-            alt="Shoes" />
-        </figure>
+        <div className="hover-3d">
+            {/* content */}
+            <figure className="max-w-100 rounded-2xl">
+                <img src="https://img.daisyui.com/images/stock/creditcard.webp" alt="3D card" />
+            </figure>
+            {/* 8 empty divs needed for the 3D effect */}
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
         <div className="card-body">
-            <h2 className="card-title justify-center" >Stars: {value} </h2>
+            <h2 className="card-title justify-center" >Stars: {stars} </h2>
 
         </div>
         </div>

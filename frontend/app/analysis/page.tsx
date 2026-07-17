@@ -1,5 +1,6 @@
 import Stars from "./components/analytics/Stars"
 import { getRepoMetrics } from "../lib/githubFetch";
+import Language from "./components/analytics/Language"
 
 interface PageProps {
     searchParams: Promise <{owner?:string; repo?:string}>;
@@ -18,7 +19,8 @@ const Analytics = async ( {searchParams}: PageProps) => {
 
     return (
         <>
-            <Stars value = {repoData.stars}/>
+            <Stars stars = {repoData.stars}/>
+            <Language language = {repoData.language}/>
         </>
     )
 }

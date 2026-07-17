@@ -8,20 +8,34 @@ export async function GET(request: Request) {
     const repo = searchParams.get("repo")
 
 
+    const includeMetrics = searchParams.get("metrics") === "true"
+
     try {
         const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`)
-        
-        if (response.status === 404) {
+        if (!includeMetrics) {
+            if (response.status === 404) {
+                return NextResponse.json(
+                    {exists: false},
+                    {status:404}
+                )
+            }
+
             return NextResponse.json(
-                {exists: false},
-                {status:404}
+                {exists: true},
+                {status:200}
+            )
+        } else {
+            const RepoData = await response.json() 
+            return NextResponse.json(
+                {
+                    stars: RepoData.stargazers_count,
+                    name: RepoData.name,
+                    language: RepoData.language
+                },
+                {status: 200}
             )
         }
 
-        return NextResponse.json(
-            {exists: true},
-            {status:200}
-        )
 
     } catch (error) {
         return NextResponse.json(

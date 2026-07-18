@@ -35,13 +35,9 @@ const ContributionGraph = ( {commitHistory} : CommitHistory) => {
 
     let currentDate = new Date().toISOString(); 
     currentDate = currentDate.split("T")[0]
-    console.log(currentDate)
-
-    console.log(commitHistory)
 
     // Get earliest year to show history from
     let earliestCommitYear = Number(Object.keys(commitHistory)[0].split("-")[0])
-    console.log(earliestCommitYear)
     let currentYear = new Date().getFullYear()
 
     let calendars: Record<number, (number |null)[][]> = {}

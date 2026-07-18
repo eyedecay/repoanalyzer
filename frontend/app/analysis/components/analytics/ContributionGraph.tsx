@@ -74,7 +74,7 @@ const ContributionGraph = ( {commitHistory} : CommitHistory) => {
                 Object.entries(calendars).map(([year, calendar]) => (
                     <div key = {year} className = "snap-start h-[130px]">
                     <div className = "flex gap-4 mb-2">
-                        <div className = "w-12 font-bold"> {year}</div>
+                        <div className = "font-bold"> Commit History: {year}</div>
                     </div>
                     <table>
                         <tbody>

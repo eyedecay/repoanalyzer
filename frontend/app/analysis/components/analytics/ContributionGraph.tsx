@@ -1,4 +1,4 @@
-
+import React from "react"
 
 const LOW_THRESHOLD = 3 
 const MEDIUM_THRESHOLD = 5
@@ -9,7 +9,6 @@ interface CommitHistory {
 }
 
 const ContributionGraph = ( {commitHistory} : CommitHistory) => {
-
 
     function createCalendar(year: number) {
         const calendar = Array.from({length:7}, () => Array(53).fill(null))
@@ -28,10 +27,30 @@ const ContributionGraph = ( {commitHistory} : CommitHistory) => {
 
             const week = Math.floor((day + startDay -1) / 7)
 
-            calendar[weekDay][week] = commits
+            calendar[weekDay][week] = {
+                date: dateString, 
+                commits
         }
-        return calendar
     }
+    return calendar
+    }
+    function getIntensity(commits: number) {
+        let colour = ""
+        if (commits === 0) {
+            colour = "bg-gray-200"
+        } else if (commits <= LOW_THRESHOLD) {
+            colour = "bg-yellow-200"
+        } else if (commits <= MEDIUM_THRESHOLD) {
+            colour = "bg-orange-200"
+        } else if (commits <= HIGH_THRESHOLD) {
+            colour = "bg-red-200"
+        } else {
+            colour = "bg-purple-500"
+        }
+        return colour
+    }
+
+    
 
     let currentDate = new Date().toISOString(); 
     currentDate = currentDate.split("T")[0]
@@ -40,7 +59,7 @@ const ContributionGraph = ( {commitHistory} : CommitHistory) => {
     let earliestCommitYear = Number(Object.keys(commitHistory)[0].split("-")[0])
     let currentYear = new Date().getFullYear()
 
-    let calendars: Record<number, (number |null)[][]> = {}
+    let calendars: Record<number, ({date: string, commits:number} |null)[][]> = {}
 
     while (earliestCommitYear <= currentYear) {
         calendars[earliestCommitYear] = (createCalendar(earliestCommitYear))
@@ -49,11 +68,39 @@ const ContributionGraph = ( {commitHistory} : CommitHistory) => {
     console.log(calendars)
 
 
-    
-
     return (
-        <div>
-            Hi
+        <div className="max-h-[130px] overflow-y-scroll snap-y snap-mandatory">
+            {
+                Object.entries(calendars).map(([year, calendar]) => (
+                    <div key = {year} className = "snap-start h-[130px]">
+                    <div className = "flex gap-4 mb-2">
+                        <div className = "w-12 font-bold"> {year}</div>
+                    </div>
+                    <table>
+                        <tbody>
+                            {
+                                calendar.map((row, rowIndex) => (
+                                    <tr key = {rowIndex}>
+                                        {
+                                            row.map((commits, colIndex) => (
+                                                commits ? (
+                                                    <td key = {colIndex} title = {`${commits.date}: ${commits.commits} commit${commits.commits === 1 ? "" : "s"}`} className = {`w-3 h-3 p-0 border ${getIntensity(commits.commits)}`}></td>
+                                                ) : (
+                                                    <td key = {colIndex} className = "w-3 h-3 p-0"></td>
+                                                )
+                                            ))
+                                        }
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                ))
+            }
+            
+                                                  
+            
         </div>
     )
 }

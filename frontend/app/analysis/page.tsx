@@ -1,4 +1,5 @@
 import Stars from "./components/analytics/Stars"
+import { getCommitHistory } from "../lib/githubFetch"
 import { getRepoMetrics } from "../lib/githubFetch";
 import Language from "./components/analytics/Language"
 import FullChatComponent from "./components/chat/FullChatComponent";
@@ -17,9 +18,12 @@ const Analytics = async ( {searchParams}: PageProps) => {
     }
 
     const repoData = await getRepoMetrics(owner, repo)
+    const commitHistory = await getCommitHistory(owner, repo)
+    console.log(commitHistory)
 
     return (
         <>
+            <h1 className = "text-4xl font-bold text-center mb-5"> {repo} by {owner}</h1>
             <Stars stars = {repoData.stars}/>
             <Language language = {repoData.language}/>
             <FullChatComponent/>

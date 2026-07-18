@@ -43,10 +43,11 @@ export async function getCommitHistory(owner: string, repo: string) {
     let commitHistory: Record<string, number> = {}; 
 
     for (const commit of allCommits) {
-        if (!commitHistory[commit]) {
-            commitHistory[commit] = 0
+        const date = commit.split('T')[0]
+        if (!commitHistory[date]) {
+            commitHistory[date] = 0
         }
-        commitHistory[commit]++;
+        commitHistory[date]++;
     }
 
     return commitHistory

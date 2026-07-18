@@ -22,7 +22,7 @@ const AnalyzeButton = ( {repoUrl, setError}: AnalyzeButtonProps) => {
         }
 
         //Check if its a valid git clone link (only url compatibility not actual existence)
-        const githubRegex = /^https:\/\/github\.com\/[^\/]+\/[^\/]+(\.git)?$/
+        const githubRegex = /^(https:\/\/)?github\.com\/[^\/]+\/[^\/]+(\.git)?$/
         if (!githubRegex.test(cleanUrl)) {
             setError("Enter Valid Git Clone link")
             setLoading(false)

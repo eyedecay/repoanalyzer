@@ -27,7 +27,7 @@ const Analytics = async ( {searchParams}: PageProps) => {
             <h1 className = "text-4xl font-bold text-center mb-5"> {repo} by {owner}</h1>
             <Stars stars = {repoData.stars}/>
             <Language language = {repoData.language}/>
-            <ContributionGraph/>
+            <ContributionGraph commitHistory = {commitHistory}/>
             <FullChatComponent/>
         </>
     )

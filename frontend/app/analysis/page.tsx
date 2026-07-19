@@ -1,12 +1,10 @@
 import Stars from "./components/analytics/Stars"
-import { getCommitHistory } from "../lib/githubFetch"
-import { getRepoMetrics } from "../lib/githubFetch";
+import { getCommitHistory, getRepoMetrics, checkRepoExistence  } from "../lib/githubFetch"
 import Language from "./components/analytics/Language"
 import FullChatComponent from "./components/chat/FullChatComponent";
 import ContributionGraph from "./components/analytics/ContributionGraph";
 
 import{ notFound } from "next/navigation"
-import { checkRepoExistence } from "../lib/githubFetch";
 
 interface PageProps {
     searchParams: Promise <{owner?:string; repo?:string}>;

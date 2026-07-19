@@ -5,6 +5,9 @@ import Language from "./components/analytics/Language"
 import FullChatComponent from "./components/chat/FullChatComponent";
 import ContributionGraph from "./components/analytics/ContributionGraph";
 
+import{ notFound } from "next/navigation"
+import { checkRepoExistence } from "../lib/githubFetch";
+
 interface PageProps {
     searchParams: Promise <{owner?:string; repo?:string}>;
 }
@@ -16,6 +19,12 @@ const Analytics = async ( {searchParams}: PageProps) => {
 
     if (owner === undefined || repo === undefined) {
         return <div> Missing Repo Info</div>
+    }
+
+    // If user uses web link instead of normal typing
+    const exists = await checkRepoExistence(owner, repo);
+    if (!exists.ok) {
+        notFound();
     }
 
     const repoData = await getRepoMetrics(owner, repo)

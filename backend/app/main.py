@@ -22,7 +22,7 @@ class ChatRequest(BaseModel):
 def chat(request: ChatRequest):
     prompt = request.prompt
     owner = request.owner 
-    repo = request.owner
+    repo = request.repo
 
 
     model_response = chat_with_model(prompt)

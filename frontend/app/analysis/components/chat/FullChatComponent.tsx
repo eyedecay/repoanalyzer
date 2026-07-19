@@ -10,11 +10,16 @@ interface Message {
 const FullChatComponent = () => {
     const [messages, setMessages] = useState<Message[]>([])
 
-    const handleSend = (message: string) => {
+    const handleSend = (message: string, aiResponse: string) => {
         setMessages(prev => [...prev, {
             role: "user",
             content: message
-        }])
+        }, 
+        {
+            role: "chatbot", 
+            content: aiResponse
+        }
+    ])
     }
     return (
         <div className = "w-full h-[400px] flex flex-col">

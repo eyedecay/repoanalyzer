@@ -15,9 +15,9 @@ export async function POST(request: Request) {
             prompt: prompt
         })
     })
+
+    const data = await response.json()
     
 
-    return NextResponse.json({
-        received: prompt
-    })
+    return NextResponse.json(data)
 }

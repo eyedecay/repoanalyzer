@@ -3,7 +3,7 @@ import { ArrowUp } from "lucide-react"
 import { useState } from "react"
 
 interface ChatBoxProps {
-    onSend: (message: string) => void
+    onSend: (message: string, aiResponse: string) => void,
 }
 
 const ChatBox = ({onSend}: ChatBoxProps) => {
@@ -12,7 +12,7 @@ const ChatBox = ({onSend}: ChatBoxProps) => {
     const handleSubmit = async () => {
         if (!message.trim()) return;
 
-        onSend(message)
+        const userMessage = message
         setMessage("")
         
         //Send Post request to route
@@ -25,6 +25,9 @@ const ChatBox = ({onSend}: ChatBoxProps) => {
                 prompt: message
             })
         })
+
+        const modelResponse = await chatResponse.json()
+        onSend(userMessage, modelResponse.message)
     }
     return (
         <div className="flex items-end gap-2 w-full p-2 border border-base-content/20 rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary bg-base-100">

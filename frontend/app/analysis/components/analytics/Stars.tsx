@@ -4,10 +4,10 @@ interface StarsProp {
 
 const Stars = ({stars}: StarsProp) => {
     return (
-        <div className="card bg-base-100 w-96 shadow-sm">
+        <div className="card bg-base-100 w-48 shadow-sm">
         <div className="hover-3d">
             {/* content */}
-            <figure className="max-w-100 rounded-2xl">
+            <figure className="h-28 max-w-100 rounded-2xl">
                 <img src="https://img.daisyui.com/images/stock/creditcard.webp" alt="3D card" />
             </figure>
             {/* 8 empty divs needed for the 3D effect */}

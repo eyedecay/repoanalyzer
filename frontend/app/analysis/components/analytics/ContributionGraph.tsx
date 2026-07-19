@@ -69,14 +69,14 @@ const ContributionGraph = ( {commitHistory} : CommitHistory) => {
 
 
     return (
-        <div className="max-h-[130px] overflow-y-scroll snap-y snap-mandatory">
+        <div className="w-full max-h-[130px] overflow-y-scroll snap-y snap-mandatory">
             {
                 Object.entries(calendars).map(([year, calendar]) => (
                     <div key = {year} className = "snap-start h-[130px]">
                     <div className = "flex gap-4 mb-2">
                         <div className = "font-bold"> Commit History: {year}</div>
                     </div>
-                    <table>
+                    <table className= "w-full">
                         <tbody>
                             {
                                 calendar.map((row, rowIndex) => (

@@ -23,13 +23,19 @@ const Analytics = async ( {searchParams}: PageProps) => {
     console.log(commitHistory)
 
     return (
-        <>
-            <h1 className = "text-4xl font-bold text-center mb-5"> {repo} by {owner}</h1>
-            <Stars stars = {repoData.stars}/>
-            <Language language = {repoData.language}/>
-            <ContributionGraph commitHistory = {commitHistory}/>
-            <FullChatComponent/>
-        </>
+        <div className = "max-w-4xl mx-auto px-6">
+            <h1 className = "text-4xl font-bold text-center mb-8"> {repo} by {owner}</h1>
+            <div className = "grid grid-cols-2 gap-6 mb-8 place-items-center">
+                <Stars stars = {repoData.stars}/>
+                <Language language = {repoData.language}/>
+            </div>
+            <div className = "w-full">
+                <ContributionGraph commitHistory = {commitHistory}/>
+            </div>
+            <div className = "w-full">
+                <FullChatComponent/>
+            </div>
+        </div>
     )
 }
 

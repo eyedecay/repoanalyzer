@@ -2,12 +2,17 @@
 import { ArrowUp } from "lucide-react"
 import { useState } from "react"
 
-const ChatBox = () => {
+interface ChatBoxProps {
+    onSend: (message: string) => void
+}
+
+const ChatBox = ({onSend}: ChatBoxProps) => {
     const [message, setMessage] = useState("")
 
     const handleSubmit = () => {
         if (!message.trim()) return;
 
+        onSend(message)
         setMessage("")
     }
     return (

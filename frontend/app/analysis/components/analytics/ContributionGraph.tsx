@@ -82,9 +82,9 @@ const ContributionGraph = ( {commitHistory} : CommitHistory) => {
                                 calendar.map((row, rowIndex) => (
                                     <tr key = {rowIndex}>
                                         {
-                                            row.map((commits, colIndex) => (
-                                                commits ? (
-                                                    <td key = {colIndex} title = {`${commits.date}: ${commits.commits} commit${commits.commits === 1 ? "" : "s"}`} className = {`w-3 h-3 p-0 border ${getIntensity(commits.commits)}`}></td>
+                                            row.map((fullCommitInfo, colIndex) => (
+                                                fullCommitInfo ? (
+                                                    <td key = {colIndex} title = {`${fullCommitInfo.date}: ${fullCommitInfo.commits} commit${fullCommitInfo.commits === 1 ? "" : "s"}`} className = {`w-3 h-3 p-0 border ${getIntensity(fullCommitInfo.commits)}`}></td>
                                                 ) : (
                                                     <td key = {colIndex} className = "w-3 h-3 p-0"></td>
                                                 )

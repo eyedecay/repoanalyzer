@@ -40,7 +40,7 @@ const Analytics = async ( {searchParams}: PageProps) => {
                 <ContributionGraph commitHistory = {commitHistory}/>
             </div>
             <div className = "w-full">
-                <FullChatComponent/>
+                <FullChatComponent owner = {owner} repo = {repo}/>
             </div>
         </div>
     )

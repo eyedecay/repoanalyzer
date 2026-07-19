@@ -4,10 +4,12 @@ import { useState } from "react"
 
 interface ChatBoxProps {
     onSend: (message: string) => void,
-    onBotMessage: (aiResponse: string) => void
+    onBotMessage: (aiResponse: string) => void,
+    owner: string,
+    repo: string,
 }
 
-const ChatBox = ({onSend, onBotMessage}: ChatBoxProps) => {
+const ChatBox = ({onSend, onBotMessage, owner, repo}: ChatBoxProps) => {
     const [message, setMessage] = useState("")
 
     const handleSubmit = async () => {
@@ -24,7 +26,9 @@ const ChatBox = ({onSend, onBotMessage}: ChatBoxProps) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                prompt: message
+                prompt: message,
+                owner: owner, 
+                repo: repo
             })
         })
 

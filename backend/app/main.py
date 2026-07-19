@@ -15,10 +15,15 @@ def main():
 
 class ChatRequest(BaseModel):
     prompt: str
+    owner: str 
+    repo: str
 
 @app.post("/chat")
 def chat(request: ChatRequest):
     prompt = request.prompt
+    owner = request.owner 
+    repo = request.owner
+
 
     model_response = chat_with_model(prompt)
     return {

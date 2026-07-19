@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
+
+    //receive data from the client request.
     const body = await request.json() 
-    const prompt = body.prompt 
 
 
     //send request to fastAPI
@@ -12,7 +13,9 @@ export async function POST(request: Request) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            prompt: prompt
+            prompt: body.prompt,
+            owner: body.owner, 
+            repo: body.repo, 
         })
     })
 

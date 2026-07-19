@@ -9,11 +9,22 @@ interface ChatBoxProps {
 const ChatBox = ({onSend}: ChatBoxProps) => {
     const [message, setMessage] = useState("")
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!message.trim()) return;
 
         onSend(message)
         setMessage("")
+        
+        //Send Post request to route
+        const chatResponse = await fetch("/api/send-to-backend", {
+            method: "POST", 
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                prompt: message
+            })
+        })
     }
     return (
         <div className="flex items-end gap-2 w-full p-2 border border-base-content/20 rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary bg-base-100">

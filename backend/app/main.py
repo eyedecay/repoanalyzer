@@ -12,4 +12,11 @@ def main():
         "message": "Running"
     }
 
+class ChatRequest(BaseModel):
+    prompt: str
 
+@app.post("/chat")
+def chat(request: ChatRequest):
+    return {
+        "mesage": "Backend route setup"
+    }

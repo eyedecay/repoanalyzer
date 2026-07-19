@@ -8,7 +8,7 @@ const Stars = ({stars}: StarsProp) => {
         <div className="hover-3d">
             {/* content */}
             <figure className="h-28 max-w-100 rounded-2xl">
-                <img src="https://img.daisyui.com/images/stock/creditcard.webp" alt="3D card" />
+                <img src="/stars.png" alt="3D card" />
             </figure>
             {/* 8 empty divs needed for the 3D effect */}
             <div></div>

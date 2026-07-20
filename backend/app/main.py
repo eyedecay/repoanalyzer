@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from app.model import chat_with_model
+from app.scripts.clone_repo import clone_repo
 import requests
 import httpx
 
@@ -35,6 +36,8 @@ def chat(request: ChatRequest):
 
 @app.post("/clone") 
 def clone(request: CloneRepo):
-    print("Initialized")
-    print(request.owner)
-    print(request.repo)
+    owner = request.owner
+    
+    repo = request.repo
+    clone_repo(owner, repo)
+    

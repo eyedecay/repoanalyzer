@@ -7,22 +7,24 @@ import httpx
 
 app = FastAPI()
 
+class ChatRequest(BaseModel):
+    prompt: str
+
+class CloneRepo(BaseModel):
+    owner: str 
+    repo: str 
+
+
 @app.get("/")
 def main():
     return {
         "message": "Running"
     }
 
-class ChatRequest(BaseModel):
-    prompt: str
-    owner: str 
-    repo: str
 
 @app.post("/chat")
 def chat(request: ChatRequest):
     prompt = request.prompt
-    owner = request.owner 
-    repo = request.repo
 
 
     model_response = chat_with_model(prompt)
@@ -30,3 +32,9 @@ def chat(request: ChatRequest):
         "message": model_response
 
     }
+
+@app.post("/clone") 
+def clone(request: CloneRepo):
+    print("Initialized")
+    print(request.owner)
+    print(request.repo)

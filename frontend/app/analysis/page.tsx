@@ -24,6 +24,17 @@ const Analytics = async ( {searchParams}: PageProps) => {
     if (!exists.ok) {
         notFound();
     }
+    const sendDataForClone = await fetch("http://localhost:8000/clone", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            owner: owner,
+            repo: repo
+        })
+    })
+
 
     const repoData = await getRepoMetrics(owner, repo)
     const commitHistory = await getCommitHistory(owner, repo)
@@ -40,7 +51,7 @@ const Analytics = async ( {searchParams}: PageProps) => {
                 <ContributionGraph commitHistory = {commitHistory}/>
             </div>
             <div className = "w-full">
-                <FullChatComponent owner = {owner} repo = {repo}/>
+                <FullChatComponent/>
             </div>
         </div>
     )

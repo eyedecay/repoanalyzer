@@ -7,7 +7,10 @@ class Agent():
 
 
     def chat_with_model(self, prompt: str, owner: str, repo: str): 
-
+        
+        context = f"""
+        You are analyzing this repository. Owner: {owner}, Repo: {repo}. All your responses should be about this repository
+        """
         response = ollama.chat(
             model = self.model,
             messages = [

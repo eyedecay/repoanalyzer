@@ -34,10 +34,9 @@ def main():
 
 @app.post("/chat")
 def chat(request: ChatRequest):
-    prompt = request.prompt
 
 
-    model_response = agent.chat_with_model(prompt, owner, repo)
+    model_response = agent.chat_with_model(request.prompt, request.owner, request.repo)
     return {
         "message": model_response
         

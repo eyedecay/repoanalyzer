@@ -35,6 +35,22 @@ const Analytics = async ( {searchParams}: PageProps) => {
         })
     })
 
+    if (!sendDataForClone.ok) {
+        throw new Error("Cloning Repo Failed")
+    }
+
+
+    const storeVectorsinDB = await fetch("http://localhost:8000/store_vector", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            owner: owner,
+            repo: repo
+        })
+    })
+
 
     const repoData = await getRepoMetrics(owner, repo)
     const commitHistory = await getCommitHistory(owner, repo)

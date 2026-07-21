@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from app.model import chat_with_model
 from app.scripts.clone_repo import clone_repo
+from app.scripts.store_vectors import store_vectors
 import requests
 import httpx
 
@@ -14,6 +15,11 @@ class ChatRequest(BaseModel):
 class CloneRepo(BaseModel):
     owner: str 
     repo: str 
+
+class StoreRepo(BaseModel):
+    owner: str 
+    repo: str 
+
 
 
 @app.get("/")
@@ -39,5 +45,14 @@ def clone(request: CloneRepo):
     owner = request.owner
     
     repo = request.repo
-    clone_repo(owner, repo)
+    path = clone_repo(owner, repo)
+    return {
+        "path": str(path)
+    }
     
+
+@app.post("/store_vector")
+def store_vector(request: StoreRepo):
+    owner = request.owner 
+    repo = request.repo
+    store_vectors(owner, repo)

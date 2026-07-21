@@ -6,7 +6,7 @@ CREATE table chunk_vectors(
     extension TEXT, 
     chunk_index INTEGER NOT NULL,
     CONTENT TEXT,
-    embedding vector(768)
+    embedding vector(768),
 
     UNIQUE(repo_owner, repo_name, file_path, chunk_index)
 );

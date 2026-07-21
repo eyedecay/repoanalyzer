@@ -48,11 +48,15 @@ def clone(request: CloneRepo):
     owner = request.owner
     
     repo = request.repo
-    path = clone_repo(owner, repo)
-    return {
-        "path": str(path)
-    }
-    
+    try:
+        path = clone_repo(owner, repo)
+        return {
+            "path": str(path)
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code = 400, detail = str(e)
+        )
 
 @app.post("/store_vector")
 def store_vector(request: StoreRepo):

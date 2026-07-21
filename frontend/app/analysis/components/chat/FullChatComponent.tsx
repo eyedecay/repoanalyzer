@@ -8,7 +8,12 @@ interface Message {
     content: string
 }
 
-const FullChatComponent = () => {
+interface FullChatComponentProps {
+    owner: string 
+    repo: string
+}
+
+const FullChatComponent = ({owner, repo}: FullChatComponentProps) => {
     const [messages, setMessages] = useState<Message[]>([])
 
     const addUserMessage = (message: string) => {
@@ -31,7 +36,7 @@ const FullChatComponent = () => {
             <div className = "flex-1 overflow-y-auto">
                 <Messages messages = {messages}/>
             </div>
-            <ChatBox onSend = {addUserMessage} onBotMessage = {addBotMessage}/>
+            <ChatBox onSend = {addUserMessage} onBotMessage = {addBotMessage} owner = {owner} repo = {repo}/>
         </div>
     )
 }

@@ -6,7 +6,7 @@ class Agent():
         self.tools = tools
 
 
-    def chat_with_model(self, prompt: str): 
+    def chat_with_model(self, prompt: str, owner: str, repo: str): 
 
         response = ollama.chat(
             model = self.model,

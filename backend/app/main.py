@@ -12,6 +12,8 @@ agent = Agent(model = "llama3.2:3b", tools = [])
 
 class ChatRequest(BaseModel):
     prompt: str
+    owner: str 
+    repo: str
 
 class CloneRepo(BaseModel):
     owner: str 
@@ -35,9 +37,10 @@ def chat(request: ChatRequest):
     prompt = request.prompt
 
 
-    model_response = agent.chat_with_model(prompt)
+    model_response = agent.chat_with_model(prompt, owner, repo)
     return {
         "message": model_response
+        
 
     }
 

@@ -1,6 +1,7 @@
 import subprocess
 from pathlib import Path
 import shutil
+import httpx
 
 MAX_REPO_SIZE = 500 * 1024 * 1024
 MAX_CACHE_SIZE = 20 * 1024 ** 3
@@ -56,13 +57,21 @@ def clone_repo(owner, repo):
     if path.exists():
         print("Already exists")
         return path
+    # Check if repo size is too big (on its own)
+    response = httpx.get(f"https://api.github.com/repos/{owner}/{repo}")
+    response.raise_for_status()
+    data = response.json()
+    size = data["size"] * 1024
+    if size > MAX_REPO_SIZE:
+        raise Exception("Repo Too large")
 
     
-    subprocess.run(["git", "clone", f"https://github.com/{owner}/{repo}.git", str(path)])
+    subprocess.run(["git", "clone", "--depth", "1", f"https://github.com/{owner}/{repo}.git", str(path)])
+    # Check if after cloning its too big (cause it has difference apparently)
     if get_directory_size(path) > MAX_REPO_SIZE:
         shutil.rmtree(path)
         raise Exception("Repo too large ")
-    
+    # Check cache size
     while get_cache_size() > MAX_CACHE_SIZE:
         remove_repo_from_cache()
     

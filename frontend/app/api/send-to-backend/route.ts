@@ -14,6 +14,8 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
             prompt: body.prompt,
+            owner: body.owner, 
+            repo: body.repo, 
 
         })
     })

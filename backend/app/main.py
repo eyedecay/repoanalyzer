@@ -1,14 +1,14 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from backend.app.agent.model import Agent
+from backend.app.agent.agent import Agent
 from app.scripts.clone_repo import clone_repo
 from app.scripts.store_vectors import store_vectors
 import requests
 import httpx
 
 app = FastAPI()
-agent = Agent(model = "llama-3.3-70b-versatile", tools = [])
+agent = Agent(model = "llama-3.3-70b-versatile")
 
 class ChatRequest(BaseModel):
     prompt: str

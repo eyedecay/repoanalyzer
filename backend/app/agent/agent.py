@@ -1,15 +1,23 @@
 from groq import Groq
 from dotenv import load_dotenv
 import os
-from backend.app.agent.tools.read_file import read_file
-from backend.app.agent.tools.similarity_search_chunks import similarity_search_chunks
+from backend.app.agent.tools.read_file import read_file, read_file_schema
+from backend.app.agent.tools.similarity_search_chunks import similarity_search_chunks, similarity_search_chunks_schema
 
 load_dotenv()
 
+tools = {
+    "read_file": read_file,
+    "similarity_search_chunks": similarity_search_chunks,
+}
+
+tools_schemas = [read_file_schema, similarity_search_chunks_schema]
+
 class Agent():
-    def __init__(self, model, tools):
+    def __init__(self, model):
         self.model = model 
         self.tools = tools
+        self.tools_schemas = tools_schemas
         self.client = Groq(api_key="GROQ_API_KEY")
 
 
@@ -21,7 +29,8 @@ class Agent():
 
         response = self.client.models.generate_content(
             model = self.model, 
-            contents = prompt
+            contents = prompt,
+            tools = self.tools_schemas
         )
 
         return response.choices[0].message.content

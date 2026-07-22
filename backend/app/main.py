@@ -8,7 +8,7 @@ import requests
 import httpx
 
 app = FastAPI()
-agent = Agent(model = "llama3.2:3b", tools = [])
+agent = Agent(model = "llama-3.3-70b-versatile", tools = [])
 
 class ChatRequest(BaseModel):
     prompt: str

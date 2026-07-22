@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from backend.app.agent.agent import Agent
+from app.agent.agent import Agent
 from app.scripts.clone_repo import clone_repo
 from app.scripts.store_vectors import store_vectors
 import requests
@@ -37,6 +37,7 @@ def chat(request: ChatRequest):
 
 
     model_response = agent.chat_with_model(request.prompt, request.owner, request.repo)
+    print(model_response)
     return {
         "message": model_response
         

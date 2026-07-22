@@ -1,8 +1,8 @@
 from groq import Groq
 from dotenv import load_dotenv
 import os
-from backend.app.agent.tools.read_file import read_file, read_file_schema
-from backend.app.agent.tools.similarity_search_chunks import similarity_search_chunks, similarity_search_chunks_schema
+from app.agent.tools.read_file import read_file, read_file_schema
+from app.agent.tools.similarity_search_chunks import similarity_search_chunks, similarity_search_chunks_schema
 
 load_dotenv()
 
@@ -29,9 +29,18 @@ class Agent():
 
         response = self.client.models.generate_content(
             model = self.model, 
-            contents = prompt,
+            messages = [
+                {
+                    "role": "system", 
+                    "content": context
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
             tools = self.tools_schemas
         )
 
-        return response.choices[0].message.content
+        return response #.choices[0].message.content
     

@@ -18,7 +18,7 @@ class Agent():
         self.model = model 
         self.tools = tools
         self.tools_schemas = tools_schemas
-        self.client = Groq(api_key="GROQ_API_KEY")
+        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 
     def chat_with_model(self, prompt: str, owner: str, repo: str): 
@@ -27,7 +27,7 @@ class Agent():
         You are analyzing this repository. Owner: {owner}, Repo: {repo}. All your responses should be about this repository
         """
 
-        response = self.client.models.generate_content(
+        response = self.client.chat.completions.create(
             model = self.model, 
             messages = [
                 {

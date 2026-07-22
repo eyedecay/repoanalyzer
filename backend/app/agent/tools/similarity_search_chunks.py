@@ -5,7 +5,7 @@ from pathlib import Path
 model = SentenceTransformer("jinaai/jina-embeddings-v2-base-code", trust_remote_code=True)
 
 
-def similarity_search_chunks(prompt: str, top_k: 5, owner: str, repo: str):
+def similarity_search_chunks(prompt: str, owner: str, repo: str, top_k: int = 5,):
     """
     Tool call 
     Return the top-k (for now 5) chunks of the repo with closest cosine similarity to prompt
@@ -49,21 +49,25 @@ def similarity_search_chunks(prompt: str, top_k: 5, owner: str, repo: str):
     connection.close()
     return results
 
-def read_file(owner: str, repo: str, file_path: str):
-    """
-    Tool call for the agent reading a specific file
-    Args:
-        owner (str): repo owner
-        repo (str): repo name
-        file_path (str): file path
-
-    Returns:
-        str: file contents
-    """
-    repo_cache = Path("app")/ "repo_cache"
-    path = repo_cache / owner / repo / file_path 
-
-    if not path.exists():
-        return f"File {path} not found"
-    
-    return path.read_text(encoding = "utf-8")
+similarity_search_chunks_schema = {
+    "type": "function",
+    "function": {
+        "name": "similarity_search_chunks", 
+        "description": "based on the prompt you are given, find the chunks with the closest similarity index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                },
+                "repo": {
+                    "type": "string"
+                }
+            },
+            "required": ["prompt", "owner", "repo"]
+        }
+    }
+}

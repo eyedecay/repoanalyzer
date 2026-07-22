@@ -1,6 +1,8 @@
 from groq import Groq
 from dotenv import load_dotenv
 import os
+from backend.app.agent.tools.read_file import read_file
+from backend.app.agent.tools.similarity_search_chunks import similarity_search_chunks
 
 load_dotenv()
 

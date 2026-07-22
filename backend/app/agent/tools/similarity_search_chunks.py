@@ -17,7 +17,7 @@ def similarity_search_chunks(prompt: str, owner: str, repo: str, top_k: int = 5,
     Returns:
         list of tuples: 5 tuples of the closest chunks
     """
-    embedding = model.encode(prompt)
+    embedding = model.encode(prompt).tolist()
     connection = get_database_connection()
     cursor = connection.cursor()
 
@@ -31,7 +31,7 @@ def similarity_search_chunks(prompt: str, owner: str, repo: str, top_k: int = 5,
         FROM chunk_vectors
         WHERE repo_owner = %s 
         AND repo_name = %s 
-        ORDER by embeding <=> %s::vector
+        ORDER by embedding <=> %s::vector
         LIMIT %s;
         """,
         (

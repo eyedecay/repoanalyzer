@@ -6,6 +6,7 @@ from app.scripts.clone_repo import clone_repo
 from app.scripts.store_vectors import store_vectors
 import requests
 import httpx
+import json 
 
 app = FastAPI()
 agent = Agent(model = "llama-3.3-70b-versatile")
@@ -38,6 +39,7 @@ def chat(request: ChatRequest):
 
     model_response = agent.chat_with_model(request.prompt, request.owner, request.repo)
     print(model_response)
+
 
     ### ENDPOINT WORKS AND MODEL CURRENTLY CALLS A TOOL. BASED ON THAT PARSE LATER
     return {

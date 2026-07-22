@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from app.agent.tools.read_file import read_file, read_file_schema
 from app.agent.tools.similarity_search_chunks import similarity_search_chunks, similarity_search_chunks_schema
+import json
 
 load_dotenv()
 
@@ -26,10 +27,7 @@ class Agent():
         context = f"""
         You are analyzing this repository. Owner: {owner}, Repo: {repo}. All your responses should be about this repository
         """
-
-        response = self.client.chat.completions.create(
-            model = self.model, 
-            messages = [
+        messages = [
                 {
                     "role": "system", 
                     "content": context
@@ -38,9 +36,39 @@ class Agent():
                     "role": "user",
                     "content": prompt
                 }
-            ],
+            ]
+
+        response = self.client.chat.completions.create(
+            model = self.model, 
+            messages = messages,
+            tools = self.tools_schemas,
+            temperature = 0
+        )
+
+        while response.choices[0].message.tool_calls:
+            message = response.choices[0].message
+            messages.append(message)
+            for tool_call in message.tool_calls:
+                tool_name = tool_call.function.name
+                arguments = json.loads(tool_call.function.arguments)
+
+                #Use the tool and the arguments
+                function = self.tools[tool_name]
+                result = function(**arguments)
+
+                #add it to messages/context model receives for later prompts
+                messages.append({
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": str(result)
+                })
+            
+            response = self.client.chat.completions.create(
+            model = self.model, 
+            messages = messages,
             tools = self.tools_schemas
         )
 
-        return response #.choices[0].message.content
+        #if it does not return a tool call, just return content
+        return response.choices[0].message.content
     

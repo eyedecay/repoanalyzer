@@ -40,8 +40,6 @@ def chat(request: ChatRequest):
     model_response = agent.chat_with_model(request.prompt, request.owner, request.repo)
     print(model_response)
 
-
-    ### ENDPOINT WORKS AND MODEL CURRENTLY CALLS A TOOL. BASED ON THAT PARSE LATER
     return {
         "message": model_response
         
@@ -68,3 +66,7 @@ def store_vector(request: StoreRepo):
     owner = request.owner 
     repo = request.repo
     store_vectors(owner, repo)
+
+    return {
+        "message": "stored"
+    }

@@ -50,6 +50,9 @@ const Analytics = async ( {searchParams}: PageProps) => {
             repo: repo
         })
     })
+    if (!storeVectorsinDB.ok) {
+        throw new Error("failed to index repo")
+    }
 
 
     const repoData = await getRepoMetrics(owner, repo)

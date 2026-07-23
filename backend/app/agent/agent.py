@@ -15,6 +15,15 @@ tools = {
 tools_schemas = [read_file_schema, similarity_search_chunks_schema]
 
 class Agent():
+    """
+    The agent class that represents an instance of the agent
+    Attributes:
+        model: (model)
+        tools: the tools the model has access to
+        tools_schemas: json of what the model should return when calling a tool
+        client: communication with groq api
+
+    """
     def __init__(self, model):
         self.model = model 
         self.tools = tools
@@ -23,6 +32,13 @@ class Agent():
 
 
     def chat_with_model(self, prompt: str, owner: str, repo: str): 
+        """
+        Chats with the model (called by the /chat endpoint)
+        Args:
+            prompt (str): original prompt sent in by the user
+            owner (str): repo owner
+            repo (str): repo name
+        """
         
         context = f"""
         You are analyzing this repository. Owner: {owner}, Repo: {repo}. All your responses should be about this repository

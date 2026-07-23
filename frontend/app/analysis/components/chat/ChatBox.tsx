@@ -33,9 +33,30 @@ const ChatBox = ({onSend, onBotMessage, owner, repo}: ChatBoxProps) => {
 
             })
         })
+        if (!chatResponse.body) {
+            return
+        }
 
-        const modelResponse = await chatResponse.json()
-        onBotMessage(modelResponse.message)
+        const reader = chatResponse.body.getReader()
+        const decoder = new TextDecoder()
+
+        let modelResponse = ""
+        console.log("MODEL OUTPUT IS WOKRING")
+        while (true) {
+            const { done, value } = await reader.read()
+
+            if (done) {
+                break
+            }
+
+            const chunk = decoder.decode(value, {stream: true})
+
+            modelResponse += chunk
+            onBotMessage(modelResponse)
+
+        }
+
+
     }
     return (
         <div className="flex items-end gap-2 w-full p-2 border border-base-content/20 rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary bg-base-100">

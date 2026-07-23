@@ -19,9 +19,11 @@ export async function POST(request: Request) {
 
         })
     })
-
-    const data = await response.json()
     
 
-    return NextResponse.json(data)
+    return new Response(response.body, {
+        headers: {
+            "Content-Type": "text/plain"
+        }
+    })
 }

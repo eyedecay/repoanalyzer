@@ -4,11 +4,22 @@ from pydantic import BaseModel
 from app.agent.agent import Agent
 from app.scripts.clone_repo import clone_repo
 from app.scripts.store_vectors import store_vectors
+from fastapi.responses import StreamingResponse
 import requests
 import httpx
 import json 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "*"
+    ],
+    allow_credentials = True, 
+    allow_methods = ["*"],
+    allow_headers = ["*"]
+)
 agent = Agent(model = "llama-3.3-70b-versatile")
 
 class ChatRequest(BaseModel):
@@ -37,15 +48,9 @@ def main():
 def chat(request: ChatRequest):
 
 
-    model_response = agent.chat_with_model(request.prompt, request.owner, request.repo)
-    print(model_response)
-
-    return {
-        "message": model_response
-        
-
-    }
-
+    model_response = StreamingResponse(agent.chat_with_model(request.prompt, request.owner, request.repo), media_type = "text/plain")
+    return model_response
+    
 @app.post("/clone") 
 def clone(request: CloneRepo):
     owner = request.owner

@@ -58,13 +58,14 @@ class Agent():
             model = self.model, 
             messages = messages,
             tools = self.tools_schemas,
-            temperature = 0
+            temperature = 0,
         )
 
         while response.choices[0].message.tool_calls:
             message = response.choices[0].message
             messages.append(message)
             for tool_call in message.tool_calls:
+                print("calling tool")
                 tool_name = tool_call.function.name
                 arguments = json.loads(tool_call.function.arguments)
 
@@ -85,6 +86,18 @@ class Agent():
             tools = self.tools_schemas
         )
 
-        #if it does not return a tool call, just return content
-        return response.choices[0].message.content
+        #if it does not return a tool call, just yield content (with streaming)
+        print("done")
+        stream = self.client.chat.completions.create(
+            model = self.model, 
+            messages = messages,
+            tools = self.tools_schemas,
+            temperature = 0,
+            stream = True
+        )
+        for chunk in stream:
+            content = chunk.choices[0].delta.content
+            if content:
+                yield content
+
     

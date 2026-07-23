@@ -1,3 +1,5 @@
 venv
 __pycache__
 .env
+app/repo_cache/*
+!app/repo_cache/.gitkeep

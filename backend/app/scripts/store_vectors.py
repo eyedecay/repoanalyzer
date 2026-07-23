@@ -15,7 +15,6 @@ def store_vectors(owner, repo):
     connection = get_database_connection()
     try:
         cursor = connection.cursor()
-
         cursor.execute(
             """
             DELETE FROM chunk_vectors

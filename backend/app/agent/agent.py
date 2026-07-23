@@ -41,7 +41,9 @@ class Agent():
         """
         
         context = f"""
-        You are analyzing this repository. Owner: {owner}, Repo: {repo}. All your responses should be about this repository
+        You are analyzing this repository. Owner: {owner}, Repo: {repo}. 
+        - Base all your responses on this repository in specific. You may use your knowledge but reference specfic code blocks or files
+        - If you are not sure about an answer, use the tools to inspect relevant files.
         """
         messages = [
                 {
@@ -74,18 +76,34 @@ class Agent():
                 function = self.tools[tool_name]
                 result = function(**arguments)
 
+                if tool_name == "similarity_search_chunks":
+                    content = ""
+                    for file_path, chunk_index, chunk_content, similarity in result:
+                        content += f""" File: {file_path} 
+                        Chunk: {chunk_index} 
+                        Similarity: {similarity:.4f} 
+                        Code: 
+                        ```python 
+                        {chunk_content}
+                        ```
+                        """
+
+                elif tool_name == "read_file":
+                    content = str(result)
                 #add it to messages/context model receives for later prompts
                 messages.append({
                     "role": "tool",
                     "tool_call_id": tool_call.id,
-                    "content": str(result)
+                    "content": content
                 })
+            print(messages)
             
             response = self.client.chat.completions.create(
             model = self.model, 
             messages = messages,
             tools = self.tools_schemas
         )
+            print(response.choices[0].message)
 
         #if it does not return a tool call, just yield content (with streaming)
         print("done")

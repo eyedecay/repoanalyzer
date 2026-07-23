@@ -84,6 +84,10 @@ def chunk_repo(repo_path):
         file_chunks = get_chunks(content) 
 
         for index,chunk in enumerate(file_chunks):
+
+            if not chunk.strip():
+                continue
+            
             chunks.append({
                 "file_path": str(file.relative_to(repo_path)),
                 "language": file.suffix,

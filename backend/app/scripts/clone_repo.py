@@ -55,8 +55,8 @@ def clone_repo(owner, repo):
     path = CACHE_DIR /f"{owner}_{repo}"
 
     if path.exists():
-        print("Already exists")
-        return path
+        print("Already exists. Removing")
+        shutil.rmtree(path)
     # Check if repo size is too big (on its own)
     response = httpx.get(f"https://api.github.com/repos/{owner}/{repo}")
     response.raise_for_status()

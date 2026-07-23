@@ -27,16 +27,30 @@ const FullChatComponent = ({owner, repo}: FullChatComponentProps) => {
     const addBotMessage = (aiResponse: string) => {
         setMessages(prev => [...prev, {
             role: "chatbot",
-            content: aiResponse
+            content: ""
         }, 
         
     ])}
+
+    const streamBotMessage = (content: string) => {
+        setMessages(prev => {
+            const updated = [...prev]
+            updated[updated.length-1] = {
+                ...updated[updated.length - 1],
+                content: content
+            }
+
+            return updated
+        })
+    }
+
+
     return (
         <div className = "w-full h-[400px] flex flex-col">
             <div className = "flex-1 overflow-y-auto">
                 <Messages messages = {messages}/>
             </div>
-            <ChatBox onSend = {addUserMessage} onBotMessage = {addBotMessage} owner = {owner} repo = {repo}/>
+            <ChatBox onSend = {addUserMessage} onBotMessage = {addBotMessage} streamBotMessage = {streamBotMessage} owner = {owner} repo = {repo}/>
         </div>
     )
 }

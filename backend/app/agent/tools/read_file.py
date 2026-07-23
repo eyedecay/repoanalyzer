@@ -12,8 +12,14 @@ def read_file(owner: str, repo: str, file_path: str):
         str: file contents
     """
     repo_cache = Path("app")/ "repo_cache"
-    path = repo_cache / owner / repo / file_path 
+    repo_root = (repo_cache / f"{owner}_{repo}").resolve()
+    path = (repo_root / file_path).resolve()
 
+    #check if file is inside repo root (agent should only have access to their own repo)
+    if not path.is_relative_to(repo_root):
+        return "Invalid file path"
+
+    #check if it exists
     if not path.exists():
         return f"File {path} not found"
     

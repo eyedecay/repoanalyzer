@@ -60,6 +60,7 @@ class Agent():
             tools = self.tools_schemas,
             temperature = 0,
         )
+        print(response.choices[0].message)
 
         while response.choices[0].message.tool_calls:
             message = response.choices[0].message

@@ -35,6 +35,13 @@ const ChatBox = ({onSend, onBotMessage, streamBotMessage, owner, repo}: ChatBoxP
 
             })
         })
+
+        if (chatResponse.status === 429) {
+            alert("Too many requests")
+            return
+        }
+
+        
         if (!chatResponse.body) {
             return
         }

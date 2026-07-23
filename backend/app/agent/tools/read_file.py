@@ -37,7 +37,7 @@ read_file_schema = {
                     "type": "string"
                 }
             },
-            "required": ["owner", "repo", "path"]
+            "required": ["owner", "repo", "file_path"]
         }
     }
 }

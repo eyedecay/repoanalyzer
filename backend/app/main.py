@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from app.agent.agent import Agent
@@ -8,9 +8,18 @@ from fastapi.responses import StreamingResponse
 import requests
 import httpx
 import json 
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
+limiter = Limiter(key_func = get_remote_address)
 app = FastAPI()
+app.state.limiter = limiter
 
+app.add_exception_handler(
+    RateLimitExceeded, 
+    _rate_limit_exceeded_handler
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -45,10 +54,11 @@ def main():
 
 
 @app.post("/chat")
-def chat(request: ChatRequest):
+@limiter.limit("10/minute")
+def chat(request: Request, data: ChatRequest):
 
 
-    model_response = StreamingResponse(agent.chat_with_model(request.prompt, request.owner, request.repo), media_type = "text/plain")
+    model_response = StreamingResponse(agent.chat_with_model(data.prompt, data.owner, data.repo), media_type = "text/plain")
     return model_response
     
 @app.post("/clone") 

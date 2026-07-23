@@ -19,6 +19,11 @@ export async function POST(request: Request) {
 
         })
     })
+    if (response.status ===429) {
+        return NextResponse.json(
+            {status: 429}
+        )
+    }
     
 
     return new Response(response.body, {

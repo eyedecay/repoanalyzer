@@ -5,12 +5,13 @@ import { useState } from "react"
 interface ChatBoxProps {
     onSend: (message: string) => void,
     onBotMessage: (aiResponse: string) => void,
+    streamBotMessage: (content: string) => void,
     owner: string, 
     repo: string
 
 }
 
-const ChatBox = ({onSend, onBotMessage, owner, repo}: ChatBoxProps) => {
+const ChatBox = ({onSend, onBotMessage, streamBotMessage, owner, repo}: ChatBoxProps) => {
     const [message, setMessage] = useState("")
 
     const handleSubmit = async () => {
@@ -19,6 +20,7 @@ const ChatBox = ({onSend, onBotMessage, owner, repo}: ChatBoxProps) => {
         const userMessage = message
         setMessage("")
         onSend(userMessage)
+        onBotMessage("")
         
         //Send Post request to route
         const chatResponse = await fetch("/api/send-to-backend", {
@@ -52,7 +54,7 @@ const ChatBox = ({onSend, onBotMessage, owner, repo}: ChatBoxProps) => {
             const chunk = decoder.decode(value, {stream: true})
 
             modelResponse += chunk
-            onBotMessage(modelResponse)
+            streamBotMessage(modelResponse)
 
         }
 

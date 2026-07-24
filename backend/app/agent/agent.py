@@ -1,6 +1,7 @@
 from groq import Groq
 from dotenv import load_dotenv
 import os
+from app.agent.tools.get_directory_tree import get_directory_tree, get_directory_tree_schema
 from app.agent.tools.read_file import read_file, read_file_schema
 from app.agent.tools.similarity_search_chunks import similarity_search_chunks, similarity_search_chunks_schema
 import json
@@ -10,9 +11,10 @@ load_dotenv()
 tools = {
     "read_file": read_file,
     "similarity_search_chunks": similarity_search_chunks,
+    "get_directory_tree": get_directory_tree
 }
 
-tools_schemas = [read_file_schema, similarity_search_chunks_schema]
+tools_schemas = [read_file_schema, similarity_search_chunks_schema, get_directory_tree_schema]
 
 class Agent():
     """
@@ -88,7 +90,7 @@ class Agent():
                         ```
                         """
 
-                elif tool_name == "read_file":
+                elif tool_name == "read_file" or tool_name == "get_directory_tree":
                     content = str(result)
                 #add it to messages/context model receives for later prompts
                 messages.append({

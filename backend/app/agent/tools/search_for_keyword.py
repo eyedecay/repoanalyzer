@@ -38,17 +38,11 @@ search_for_keyword_schema = {
         "parameters": {
             "type": "object",
             "properties": {
-                "owner": {
-                    "type": "string"
-                },
-                "repo": {
-                    "type": "string"
-                },
                 "keyword": {
                     "type": "string"
                 }
             },
-            "required": ["owner", "repo", "keyword"]
+            "required": ["keyword"]
         }
     }
 }

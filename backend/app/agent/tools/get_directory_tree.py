@@ -42,15 +42,7 @@ get_directory_tree_schema = {
         "description": "This tool searches the repository tree. Use this tool when the user asks for how a project is structured, or along those lines",
         "parameters": {
             "type": "object",
-            "properties": {
-                "owner": {
-                    "type": "string"
-                },
-                "repo": {
-                    "type": "string"
-                }
-            },
-            "required": ["owner", "repo"]
+            "properties": {}
         }
     }
 

@@ -50,7 +50,7 @@ class Agent():
         """
         
         context = f"""
-        You are analyzing this repository. Owner: {owner}, Repo: {repo}. 
+        You are analyzing this repository. Owner: {owner}, Repo: {repo}.
         - Base all your responses on this repository in specific. You may use your knowledge but reference specfic code blocks or files
         - If you are not sure about an answer, use the tools to inspect relevant files.
         """
@@ -80,6 +80,8 @@ class Agent():
                 print("calling tool")
                 tool_name = tool_call.function.name
                 arguments = json.loads(tool_call.function.arguments)
+                arguments["owner"] = owner 
+                arguments["repo"] = repo
 
                 #Use the tool and the arguments
                 function = self.tools[tool_name]
@@ -97,7 +99,7 @@ class Agent():
                         ```
                         """
                 elif tool_name == "search_for_keyword":
-                    content = result
+                    content = "\n".join(result)
 
                 elif tool_name == "read_file" or tool_name == "get_directory_tree":
                     content = str(result)

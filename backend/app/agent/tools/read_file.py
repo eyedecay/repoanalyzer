@@ -33,17 +33,11 @@ read_file_schema = {
         "parameters": {
             "type": "object",
             "properties": {
-                "owner": {
-                    "type": "string"
-                },
-                "repo": {
-                    "type": "string"
-                },
                 "file_path": {
                     "type": "string"
                 }
             },
-            "required": ["owner", "repo", "file_path"]
+            "required": ["file_path"]
         }
     }
 }

@@ -60,14 +60,8 @@ similarity_search_chunks_schema = {
                 "prompt": {
                     "type": "string"
                 },
-                "owner": {
-                    "type": "string"
-                },
-                "repo": {
-                    "type": "string"
-                }
             },
-            "required": ["prompt", "owner", "repo"]
+            "required": ["prompt"]
         }
     }
 }

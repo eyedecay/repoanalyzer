@@ -1,6 +1,7 @@
 from groq import Groq
 from dotenv import load_dotenv
 import os
+from app.agent.tools.search_for_keyword import search_for_keyword, search_for_keyword_schema
 from app.agent.tools.get_directory_tree import get_directory_tree, get_directory_tree_schema
 from app.agent.tools.read_file import read_file, read_file_schema
 from app.agent.tools.similarity_search_chunks import similarity_search_chunks, similarity_search_chunks_schema
@@ -11,10 +12,16 @@ load_dotenv()
 tools = {
     "read_file": read_file,
     "similarity_search_chunks": similarity_search_chunks,
-    "get_directory_tree": get_directory_tree
+    "get_directory_tree": get_directory_tree,
+    "search_for_keyword": search_for_keyword
 }
 
-tools_schemas = [read_file_schema, similarity_search_chunks_schema, get_directory_tree_schema]
+tools_schemas = [
+    read_file_schema, 
+    similarity_search_chunks_schema, 
+    get_directory_tree_schema, 
+    search_for_keyword_schema
+    ]
 
 class Agent():
     """
@@ -89,6 +96,8 @@ class Agent():
                         {chunk_content}
                         ```
                         """
+                elif tool_name == "search_for_keyword":
+                    content = result
 
                 elif tool_name == "read_file" or tool_name == "get_directory_tree":
                     content = str(result)
